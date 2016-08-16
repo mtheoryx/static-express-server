@@ -26,4 +26,6 @@ app.get('/', (req, res) => {
     res.send(buffer);
 });
 
+app.get('/:username', (req, res) => res.send(`Hello, ${req.params.username}`));
+
 const server = app.listen(3000, () => console.log(`Server running at http://localhost:${server.address().port}`));
