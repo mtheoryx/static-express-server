@@ -1,35 +1,29 @@
 const express = require('express');
 const _ = require('lodash');
 const fs = require('fs');
+const pug = require('pug');
 
 const app = express();
 
 var users = [];
 
 fs.readFile('users.json', {encoding: 'utf8'}, (err, data) => {
-    if( err ) {
-        throw err;
-    }
+    if( err ) throw err;
+
     JSON.parse(data).forEach(user => {
-        user.name.full = _.startCase(`${user.name.first} ${user.name.last}`);
+        const full = _.startCase(`${user.name.first} ${user.name.last}`);
+        const editedUser = Object.assign({}, user);
+
+        editedUser.name.full = full;
+
         users.push(user);
     });
 });
 
-app.get('/', (req, res) => {
-    var buffer = '';
+app.set('views', './views');
+app.set('view engine', 'pug');
 
-    users.forEach(user => {
-       buffer += `<a href="/${user.username}">${user.name.first} ${user.name.last}</a><br>`;
-    });
-
-    res.send(buffer);
-});
-
-app.get(/big.*/, (req, res, next) => {
-    console.log('BIG USER ACCESSED!');
-    next();
-});
+app.get('/', (req, res) => res.render('index', { users: users }));
 
 app.get('/:username', (req, res) => res.send(`Hello, ${req.params.username}`));
 
