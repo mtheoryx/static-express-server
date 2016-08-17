@@ -12,7 +12,9 @@
   "author": "David R Poindexter III <drpoindexter@gmail.com> (http://vcard.davidrpoindexter.com/)",
   "license": "MIT",
   "dependencies": {
+    "consolidate": "0.14.1",
     "express": "4.14.0",
+    "handlebars": "4.0.5",
     "lodash": "4.15.0",
     "nodemon": "1.10.0",
     "pug": "2.0.0-beta5"
